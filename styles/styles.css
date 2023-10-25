@@ -101,6 +101,13 @@ GENERAL STYLING
     width: 100%;
     object-fit: cover;
  }
+ hr{
+   border: 1px solid var(--color-primary-variant);
+ }
+
+ .section__extra-margin{
+   margin-top: 120px;
+ }
 
  /* 
 ======================================================
@@ -213,11 +220,13 @@ FEATURED SECTION
    border: 1rem solid var(--color-gray-900);
    overflow: hidden;
    margin-bottom: 1.6rem;
+  
  }
-
- .post:hover .post__thumbnail img{
-   filter: saturate(0);
+ .post .post__thumbnail img{
    transition: filter 500ms ease;
+ }
+ .post:hover .post__thumbnail img{
+   filter: saturate(5);
  }
 
  .post__author {
@@ -343,7 +352,7 @@ footer ul a:hover{
 
 .footer__copyright{
    text-align: center;
-   padding: 3.5rem 0;
+   padding: .5rem 0;
    border-top: 2px solid var(--color-bg);
    margin-top: 4rem;
 }
@@ -495,7 +504,7 @@ GENERAL FORM STYLES
 }
 
 .form__section-container{
-   width: var(--form-width);
+   width: var(--container-width-lg);
 
 }
 

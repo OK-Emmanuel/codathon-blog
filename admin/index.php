@@ -1,10 +1,30 @@
-<?php require_once("partials/header.php") ?>
+<?php 
+require_once("partials/header.php");
 
-    <!-- ================================  END OF NAV================ -->
+// fetch current user's post
+$current_user_id = $_SESSION['user-id'];
+$query = "SELECT id, title, category_id FROM posts WHERE author_id = $current_user_id ORDER BY id DESC";
+$posts = mysqli_query($connection, $query);
+?> 
+
+<!-- ================================  END OF NAV================ -->
 
     <section class="dashboard">
+    <?php if(isset($_SESSION['success-message'])): ?>
+            <div class="alert__message success container">
+                <p><?= $_SESSION['success-message']; ?> </p>
+                <?php unset($_SESSION['success-message']); ?>
+            </div>
+
+            <?php elseif(isset($_SESSION['error-message'])): ?>
+            <div class="alert__message error container">
+                <p><?= $_SESSION['error-message']; ?> </p>
+                <?php unset($_SESSION['error-message']); ?>
+            </div>
+        <?php endif; ?>
+   
         <div class="container dashboard__container">
-            <button id="show__sidebar-btn" class="sidebar__toggle"><i class="uil uil-angle-right-b"></i></button>
+                <button id="show__sidebar-btn" class="sidebar__toggle"><i class="uil uil-angle-right-b"></i></button>
             <button id="hide__sidebar-btn" class="sidebar__toggle"><i class="uil uil-angle-left-b"></i></button>
             
             <aside>
@@ -21,6 +41,8 @@
             </aside>
             <main>
                 <h2>Manage Users</h2>
+                <?php if (mysqli_num_rows($posts) > 0):
+                 ?>
                 <table>
                     <thead>
                         <tr>
@@ -28,40 +50,36 @@
                             <th>Category</th>
                             <th>Edit</th>
                             <th>Delete</th>
-                            <!-- Add posted by later -->
+                            
                         </tr>
                     </thead>
                     <tbody>
+                        <?php while($post = mysqli_fetch_assoc($posts)): ?>
+                            <!-- Get category title using category _id -->
+                            <?php 
+                            $category_id = $post['category_id']; 
+                            $category_query = "SELECT title FROM categories WHERE cat_id=$category_id";
+                            $category_result = mysqli_query($connection, $category_query);
+                            $category = mysqli_fetch_assoc($category_result);
+                            ?>
                         <tr>
-                            <td>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Obcaecati.</td>
-                            <td>Coding</td>
-                            <td><a href="edit-post.php" class="btn small">Edit</a></td>
-                            <td><a href="delete-post.php" class="btn small  danger">Delete</a></td>
+                            <td><?= $post['title']; ?></td>
+                            <td><?= $category['title'] ?> </td>
+                            <td><a href="<?= ROOT_URL ?>admin/edit-post.php?id=<?= $post['id']; ?>" class="btn small">Edit</a></td>
+                            <td><a href="<?= ROOT_URL ?>admin/delete-post.php?id=<?= $post ['id']; ?>" class="btn small  danger">Delete</a></td>
+                            
                         </tr>
-
-                        <tr>
-                            <td>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Obcaecati.</td>
-                            <td>Coding</td>
-                            <td><a href="edit-post.php" class="btn small">Edit</a></td>
-                            <td><a href="delete-post.php" class="btn small  danger">Delete</a></td>
-                        </tr>
-                        <tr>
-                            <td>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Obcaecati.</td>
-                            <td>Coding</td>
-                            <td><a href="edit-post.php" class="btn small">Edit</a></td>
-                            <td><a href="delete-post.php" class="btn small  danger">Delete</a></td>
-                        </tr>
-
-                       
-                      
+                        <?php endwhile; ?>
                     </tbody>
                 </table>
+                <?php else :?>
+                    <div class="alert__message error" ><h1 style="text-align: center; color: red">You don't have any post yet</h1></div>
+                <?php endif; ?>
             </main>
         </div>
     </section>
 
     <!-- !-- ==================== FOOTER ==================== -->
-    <?php 
-
+<?php 
 require_once("partials/footer.php");
 ?>

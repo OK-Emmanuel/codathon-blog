@@ -1,11 +1,30 @@
 <?php 
-
 require_once("partials/header.php");
-?>    <!-- ================================  END OF NAV================ -->
+
+// fetch all users 
+$current_admin_id = $_SESSION['user-id'];
+$query = "SELECT * FROM users WHERE NOT user_id= '$current_admin_id' ";
+$users = mysqli_query($connection, $query);
+?> 
+
+<!-- ================================  END OF NAV================ -->
 
     <section class="dashboard">
+    <?php if(isset($_SESSION['success-message'])): ?>
+            <div class="alert__message success container">
+                <p><?= $_SESSION['success-message']; ?> </p>
+                <?php unset($_SESSION['success-message']); ?>
+            </div>
+
+            <?php elseif(isset($_SESSION['error-message'])): ?>
+            <div class="alert__message error container">
+                <p><?= $_SESSION['error-message']; ?> </p>
+                <?php unset($_SESSION['error-message']); ?>
+            </div>
+        <?php endif; ?>
+   
         <div class="container dashboard__container">
-            <button id="show__sidebar-btn" class="sidebar__toggle"><i class="uil uil-angle-right-b"></i></button>
+                <button id="show__sidebar-btn" class="sidebar__toggle"><i class="uil uil-angle-right-b"></i></button>
             <button id="hide__sidebar-btn" class="sidebar__toggle"><i class="uil uil-angle-left-b"></i></button>
             
             <aside>
@@ -22,6 +41,8 @@ require_once("partials/header.php");
             </aside>
             <main>
                 <h2>Manage Users</h2>
+                <?php if (mysqli_num_rows($users) > 0):
+                 ?>
                 <table>
                     <thead>
                         <tr>
@@ -33,40 +54,20 @@ require_once("partials/header.php");
                         </tr>
                     </thead>
                     <tbody>
+                        <?php while($user = mysqli_fetch_assoc($users)): ?>
                         <tr>
-                            <td>Emmanuel</td>
-                            <td>OK Emmanuel</td>
-                            <td><a href="edit-user.php" class="btn small">Edit</a></td>
-                            <td><a href="delete-user.php" class="btn small  danger">Delete</a></td>
-                            <td>Yes</td>
+                            <td><?= $user['firstname']. " " . $user['lastname']; ?></td>
+                            <td><?= $user['username'] ?> </td>
+                            <td><a href="<?= ROOT_URL ?>admin/edit-user.php?id=<?= $user['user_id']; ?>" class="btn small">Edit</a></td>
+                            <td><a href="<?= ROOT_URL ?>admin/delete-user.php?id=<?= $user['user_id']; ?>" class="btn small  danger">Delete</a></td>
+                            <td><?= $user['is_admin'] ? 'Yes' : 'No' ?></td>
                         </tr>
-
-                        <tr>
-                            <td>King</td>
-                            <td>OK Emmanuel</td>
-                            <td><a href="edit-user.php" class="btn small">Edit</a></td>
-                            <td><a href="delete-user.php" class="btn small  danger">Delete</a></td>
-                            <td>Yes</td>
-                        </tr>
-
-                        <tr>
-                            <td>John</td>
-                            <td>OK Emmanuel</td>
-                            <td><a href="edit-user.php" class="btn small">Edit</a></td>
-                            <td><a href="delete-user.php" class="btn small  danger">Delete</a></td>
-                            <td>Yes</td>
-                        </tr>
-                        <tr>
-                            <td>Doe</td>
-                            <td>OK Emmanuel</td>
-                            <td><a href="edit-user.php" class="btn small">Edit</a></td>
-                            <td><a href="delete-user.php" class="btn small  danger">Delete</a></td>
-                            <td>Yes</td>
-                        </tr>
-
-                      
+                        <?php endwhile; ?>
                     </tbody>
                 </table>
+                <?php else :?>
+                    <div class="alert__message error" ><h1>You are the only admin</h1></div>
+                <?php endif; ?>
             </main>
         </div>
     </section>
