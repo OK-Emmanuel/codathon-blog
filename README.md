@@ -37,7 +37,7 @@ Hey there! I'm **Olawuni Emmanuel Kayode**, and I'm excited to introduce you to 
 ## Demo
 
 Check out the live demo of the CMS on YouTube to see it in action:  
-[**Demo Video**](https://www.youtube.com/watch?v=your_demo_video_link)
+[**Watch Demo Video Here**](https://youtu.be/GP92d8eDqHU)
 
 ## Tech Stack
 
@@ -83,7 +83,7 @@ To get this CMS up and running on your local machine, follow these steps:
 Here are a few snapshots of the CMS interface:
 
 ![Blog Homepage](https://github.com/OK-Emmanuel/codathon-blog/blob/main/blog%20homepage.png)
-![Timer](https://github.com/OK-Emmanuel/codathon-blog/blob/main/codathontimer.png)
+
 
 
 ## License
@@ -102,6 +102,7 @@ Got questions or feedback? Feel free to reach out to me:
 - **GitHub**: [https://github.com/your-username](https://github.com/OK-Emmanuel)
 
 ## Why This Project?
+![Timer](https://github.com/OK-Emmanuel/codathon-blog/blob/main/codathontimer.png)
 
 This **Codathon Blog CMS** is more than just a basic project. It’s a versatile, secure, and scalable solution for anyone looking to build and manage a blog. Whether you’re looking to manage content for personal use or create a multi-user blogging platform, this system provides a robust foundation to build on. Plus, it’s an excellent demonstration of my skill set, from designing user interfaces to working with databases and APIs. I hope it catches your eye, and I’d love the opportunity to discuss how I can bring value to your team!
 
